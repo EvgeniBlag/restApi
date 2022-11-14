@@ -4,12 +4,7 @@ import { todolistAPI } from '../api/todolist-api';
 
 
 
-//  const instance = axios.create({
-//    baseURL: "https://social-network.samuraijs.com/api/1.1",
-//    ...settings
-//  });
-   
-
+  
 
 export const GetTodolists = () => {
    const [state, setState] = useState<any>(null)
@@ -29,7 +24,7 @@ export const CreateTodolist = () => {
    useEffect(() => {
     todolistAPI.createTodolist(title)
       .then((res)=>{
-        setState(res.data)
+        setState(res.data.data.item)
       })
    }, [])
 
