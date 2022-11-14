@@ -67,7 +67,7 @@ function App() {
     }, []);
 
     const changeFilter = useCallback(function (value: FilterValuesType, todolistId: string) {
-        const action = changeTodolistFilterAC(todolistId, value);
+        const action = changeTodolistFilterAC(value ,todolistId);
         dispatch(action);
     }, []);
 
