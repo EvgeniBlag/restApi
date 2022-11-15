@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import './App.css';
 import { TaskType, Todolist } from './Todolist';
 import { AddItemForm } from './AddItemForm';
@@ -15,19 +15,18 @@ import {
     addTodolistAC,
     changeTodolistFilterAC,
     changeTodolistTitleAC,
-    removeTodolistAC
+    FilterValuesType,
+    removeTodolistAC,
+    SetTodoListsAC,
+    TodolistDomainType
 } from './state/todolists-reducer';
 import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from './state/tasks-reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppRootStateType } from './state/store';
+import useEnhancedEffect from '@mui/material/utils/useEnhancedEffect';
+import { todolistAPI, TodolistType } from './api/todolist-api';
 
 
-export type FilterValuesType = 'all' | 'active' | 'completed';
-export type TodolistType = {
-    id: string
-    title: string
-    filter: FilterValuesType
-}
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
@@ -36,9 +35,7 @@ export type TasksStateType = {
 
 function App() {
 
-
-
-    const todolists = useSelector<AppRootStateType, Array<TodolistType>>(state => state.todolists)
+    const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
 
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
@@ -66,8 +63,8 @@ function App() {
         dispatch(action);
     }, []);
 
-    const changeFilter = useCallback(function (value: FilterValuesType, todolistId: string) {
-        const action = changeTodolistFilterAC(value ,todolistId);
+    const changeFilter = useCallback(function ( todolistId: string, filter: FilterValuesType) {
+        const action = changeTodolistFilterAC( todolistId, filter );
         dispatch(action);
     }, []);
 
@@ -82,9 +79,16 @@ function App() {
     }, []);
 
     const addTodolist = useCallback((title: string) => {
-        const action = addTodolistAC(title);
-        dispatch(action);
+        // const action = addTodolistAC(title);
+        // dispatch(action);
     }, [dispatch]);
+
+    useEffect (()=>{
+        todolistAPI.getTodolists().then((res)=>{
+            const data = res.data
+            dispatch(SetTodoListsAC(data))
+        })
+    },[])
 
     return (
         <div className="App">
