@@ -16,28 +16,27 @@ import {
     changeTodolistFilterAC,
     changeTodolistTitleAC,
     FilterValuesType,
+    getTodoTC,
     removeTodolistAC,
     SetTodoListsAC,
     TodolistDomainType
 } from './state/todolists-reducer';
-import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC } from './state/tasks-reducer';
+import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, createTaskTC, fetchTaskTC, removeTaskAC } from './state/tasks-reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppRootStateType } from './state/store';
 import useEnhancedEffect from '@mui/material/utils/useEnhancedEffect';
-import { todolistAPI, TodolistType } from './api/todolist-api';
+import { TaskTypeAPI, todolistAPI, TodolistType } from './api/todolist-api';
 
 
 
 export type TasksStateType = {
-    [key: string]: Array<TaskType>
+    [key: string]: Array<TaskTypeAPI>
 }
 
 
 function App() {
 
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
-
-    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
     const dispatch = useDispatch();
 
@@ -49,7 +48,7 @@ function App() {
     }, []);
 
     const addTask = useCallback(function (title: string, todolistId: string) {
-        const action = addTaskAC(title, todolistId);
+        const action = createTaskTC(title, todolistId);
         dispatch(action);
     }, []);
 
@@ -79,15 +78,12 @@ function App() {
     }, []);
 
     const addTodolist = useCallback((title: string) => {
-       
     }, [dispatch]);
 
-    useEffect (()=>{
-        todolistAPI.getTodolists().then((res)=>{
-            const data = res.data
-            dispatch(SetTodoListsAC(data))
-        })
-    },[])
+    useEffect(() => {
+      dispatch(getTodoTC());
+    }, []);
+
 
     return (
         <div className="App">
@@ -109,14 +105,11 @@ function App() {
                 <Grid container spacing={3}>
                     {
                         todolists.map(tl => {
-                            let allTodolistTasks = tasks[tl.id];
-
                             return <Grid item key={tl.id}>
                                 <Paper style={{padding: '10px'}}>
                                     <Todolist
                                         id={tl.id}
                                         title={tl.title}
-                                        tasks={allTodolistTasks}
                                         removeTask={removeTask}
                                         changeFilter={changeFilter}
                                         addTask={addTask}
@@ -125,6 +118,7 @@ function App() {
                                         removeTodolist={removeTodolist}
                                         changeTaskTitle={changeTaskTitle}
                                         changeTodolistTitle={changeTodolistTitle}
+                                    
                                     />
                                 </Paper>
                             </Grid>

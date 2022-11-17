@@ -1,4 +1,5 @@
-import { TodolistType } from '../api/todolist-api';
+import { Dispatch } from 'redux';
+import { todolistAPI, TodolistType } from '../api/todolist-api';
 
 
  type ActionsType =
@@ -60,7 +61,13 @@ export const changeTodolistTitleAC = (id: string, title: string)=> {
 export const changeTodolistFilterAC = (id: string, filter: FilterValuesType) => {
     return {type: 'CHANGE-TODOLIST-FILTER', id, filter} as const
 }
-
 export const SetTodoListsAC = (todolist:TodolistType[]) => {
   return {type:'SET-TODOS', todolist} as const
+}
+
+export const getTodoTC = () => (dispatch:Dispatch) => {
+  todolistAPI.getTodolists().then ((res)=>{
+    const data = res.data
+    dispatch(SetTodoListsAC(data))
+  })
 }
