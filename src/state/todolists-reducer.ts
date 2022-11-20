@@ -3,11 +3,11 @@ import { todolistAPI, TodolistType } from '../api/todolist-api';
 
 
  type ActionsType =
-  | ReturnType <typeof SetTodoListsAC>
-  | ReturnType<typeof removeTodolistAC>
-  | ReturnType<typeof addTodolistAC>
-  | ReturnType<typeof changeTodolistTitleAC>
-  | ReturnType<typeof changeTodolistFilterAC>;
+   | ReturnType<typeof SetTodoListsAC>
+   | ReturnType<typeof removeTodolistAC>
+   | ReturnType<typeof addTodolistAC>
+   | ReturnType<typeof changeTodolistTitleAC>
+   | ReturnType<typeof changeTodolistFilterAC>;
 
 const initialState: Array<TodolistDomainType> = []
 
