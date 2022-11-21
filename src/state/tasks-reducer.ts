@@ -18,11 +18,10 @@ type ActionsType =
 
 const initialState: TasksStateType = {};
 
-export const tasksReducer = (
-  state: TasksStateType = initialState,
-  action: ActionsType
-): TasksStateType => {
+export const tasksReducer = (state: TasksStateType = initialState,action: ActionsType): TasksStateType => {
+
   switch (action.type) {
+
     case "SET-TASKS": {
       return {
         ...state,
@@ -44,21 +43,24 @@ export const tasksReducer = (
     //   stateCopy[action.todolistId] = newTasks;
     //   return stateCopy;
     }
-    case "ADD-TASK": {
-      const stateCopy = { ...state };
+     case "ADD-TASK": {
+        return {...state,[action.todolistId]:[action.task, ...state[action.todolistId]]}
+    //    const stateCopy = { ...state };
 
-      let tasks = stateCopy[action.todolistId];
-      stateCopy[action.todolistId] = [...tasks, action.task];
-      return stateCopy;
-    }
+    //    let tasks = stateCopy[action.todolistId];
+    //    stateCopy[action.todolistId] = [action.task,...tasks ];
+    //    return stateCopy;
+     }
     case "CHANGE-TASK-STATUS": {
-      let todolistTasks = state[action.todolistId];
-      let newTasksArray = todolistTasks.map((t) =>
-        t.id === action.taskId ? { ...t, isDone: action.isDone } : t
-      );
+        return {...state,[action.todolistId]:state[action.todolistId]
+            .map(t=>t.id !== action.taskId?{...t,isDone:action.isDone}:t)}
+    //   let todolistTasks = state[action.todolistId];
+    //   let newTasksArray = todolistTasks.map((t) =>
+    //     t.id === action.taskId ? { ...t, isDone: action.isDone } : t
+    //   );
 
-      state[action.todolistId] = newTasksArray;
-      return { ...state };
+    //   state[action.todolistId] = newTasksArray;
+    //   return { ...state };
     }
     case "CHANGE-TASK-TITLE":
       return {
@@ -131,10 +133,4 @@ export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: D
   });
 };
 
-export const deleteTaskTC1 = ({ todolistId, taskId }: { todolistId: string; taskId: string }) => (
-  dispatch: Dispatch
-) => {
-  todolistAPI.deleteTask(todolistId, taskId).then((res) => {
-    dispatch(removeTaskAC(todolistId, taskId));
-  });
-};
+

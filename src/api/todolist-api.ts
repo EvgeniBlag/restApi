@@ -25,7 +25,7 @@ const instance = axios.create({
     error: string | null;
     totalCount: number;
     item: TaskTypeAPI
-  }
+  };
 
   export type TaskTypeAPI = {
     description: string;
@@ -46,18 +46,27 @@ const instance = axios.create({
   messages: string[],
   fieldsErrors:string[],
   resultCode:number
- }
+ };
+
  export type DeleteResponseType <T={}> = {
   data:T,
   messages: string[],
   resultCode:number
- }
+ };
+
+ export type AddTaskType <T={}> = {
+  data: T,
+  messages: string[],
+  resultCode: number,
+  item: TaskTypeAPI
+ };
+
  export enum TaskStatuses {
   New = 0,
   InProgress = 1,
   Completed = 2,
   Draft = 3
-}
+};
 
 
  
@@ -91,7 +100,7 @@ export const todolistAPI = {
 
   deleteTask(todolistId: string, taskId: string) {
     return instance.delete<DeleteResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`);
-  }
+  },
 };
 
 
