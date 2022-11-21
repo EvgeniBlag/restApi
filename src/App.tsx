@@ -18,7 +18,7 @@ import {
   FilterValuesType,
   getTodoTC,
   removeTodolistAC,
-  SetTodoListsAC,
+  setTodoListsAC,
   TodolistDomainType,
 } from "./state/todolists-reducer";
 import {
@@ -29,11 +29,12 @@ import {
   deleteTaskTC,
   fetchTaskTC,
   removeTaskAC,
+  updateTaskTC,
 } from "./state/tasks-reducer";
 import { useDispatch, useSelector } from "react-redux";
 import { AppRootStateType } from "./state/store";
 import useEnhancedEffect from "@mui/material/utils/useEnhancedEffect";
-import { TaskTypeAPI, todolistAPI, TodolistType } from "./api/todolist-api";
+import { TaskStatuses, TaskTypeAPI, todolistAPI, TodolistType } from "./api/todolist-api";
 
 export type TasksStateType = {
   [key: string]: Array<TaskTypeAPI>;
@@ -55,9 +56,8 @@ function App() {
     dispatch(action);
   }, []);
 
-  const changeStatus = useCallback(function (id: string, isDone: boolean, todolistId: string) {
-    const action = changeTaskStatusAC(id, isDone, todolistId);
-    dispatch(action);
+  const changeStatus = useCallback(function (id: string, status: TaskStatuses, todolistId: string) {
+    dispatch(updateTaskTC( todolistId,id,status));
   }, []);
 
   const changeTaskTitle = useCallback(function (id: string, newTitle: string, todolistId: string) {

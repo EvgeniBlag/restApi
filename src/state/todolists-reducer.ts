@@ -3,7 +3,7 @@ import { todolistAPI, TodolistType } from '../api/todolist-api';
 
 
  type ActionsType =
-   | ReturnType<typeof SetTodoListsAC>
+   | ReturnType<typeof setTodoListsAC>
    | ReturnType<typeof removeTodolistAC>
    | ReturnType<typeof addTodolistAC>
    | ReturnType<typeof changeTodolistTitleAC>
@@ -61,13 +61,13 @@ export const changeTodolistTitleAC = (id: string, title: string)=> {
 export const changeTodolistFilterAC = (id: string, filter: FilterValuesType) => {
     return {type: 'CHANGE-TODOLIST-FILTER', id, filter} as const
 }
-export const SetTodoListsAC = (todolist:TodolistType[]) => {
+export const setTodoListsAC = (todolist:TodolistType[]) => {
   return {type:'SET-TODOS', todolist} as const
 }
 
 export const getTodoTC = () => (dispatch:Dispatch) => {
   todolistAPI.getTodolists().then ((res)=>{
     const data = res.data
-    dispatch(SetTodoListsAC(data))
+    dispatch(setTodoListsAC(data))
   })
 }

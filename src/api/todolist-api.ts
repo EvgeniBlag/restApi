@@ -1,4 +1,5 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
+import { type } from 'os';
 
 
 const instance = axios.create({
@@ -61,6 +62,16 @@ const instance = axios.create({
   item: TaskTypeAPI
  };
 
+export type UpdateTaskModelType = {
+  title: string;
+  description: string;
+  completed: boolean;
+  status: TaskStatuses;
+  priority: number;
+  startDate: string;
+  deadline: string;
+};
+
  export enum TaskStatuses {
   New = 0,
   InProgress = 1,
@@ -100,6 +111,10 @@ export const todolistAPI = {
 
   deleteTask(todolistId: string, taskId: string) {
     return instance.delete<DeleteResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`);
+  },
+
+  updateTask(todolistId: string, taskId: string, model:UpdateTaskModelType) {
+    return instance.put<UpdateTaskModelType,AxiosResponse<ResponseType<{item:TaskTypeAPI }>>>(`/todo-lists/${todolistId}/tasks/${taskId}`,model);
   },
 };
 
