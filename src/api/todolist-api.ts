@@ -72,10 +72,11 @@ export type UpdateTaskModelType = {
   deadline: string;
 };
 
+//Chekbox
  export enum TaskStatuses {
-  New = 0,
+  New = 0,//False
   InProgress = 1,
-  Completed = 2,
+  Completed = 2,//True
   Draft = 3
 };
 

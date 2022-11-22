@@ -52,8 +52,7 @@ function App() {
   }, []);
 
   const addTask = useCallback(function (title: string, todolistId: string) {
-    const action = createTaskTC(title, todolistId);
-    dispatch(action);
+    dispatch(createTaskTC(title, todolistId));
   }, []);
 
   const changeStatus = useCallback(function (id: string, status: TaskStatuses, todolistId: string) {
@@ -61,23 +60,19 @@ function App() {
   }, []);
 
   const changeTaskTitle = useCallback(function (id: string, newTitle: string, todolistId: string) {
-    const action = changeTaskTitleAC(id, newTitle, todolistId);
-    dispatch(action);
+    dispatch(changeTaskTitleAC(id, newTitle, todolistId));
   }, []);
 
   const changeFilter = useCallback(function (todolistId: string, filter: FilterValuesType) {
-    const action = changeTodolistFilterAC(todolistId, filter);
-    dispatch(action);
+    dispatch(changeTodolistFilterAC(todolistId, filter));
   }, []);
 
   const removeTodolist = useCallback(function (id: string) {
-    const action = removeTodolistAC(id);
-    dispatch(action);
+    dispatch(removeTodolistAC(id));
   }, []);
 
   const changeTodolistTitle = useCallback(function (id: string, title: string) {
-    const action = changeTodolistTitleAC(id, title);
-    dispatch(action);
+    dispatch(changeTodolistTitleAC(id, title));
   }, []);
 
   const addTodolist = useCallback((title: string) => {}, [dispatch]);
