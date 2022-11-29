@@ -7,7 +7,6 @@ import { Delete } from '@mui/icons-material';
 import { Task } from './Task';
 import { FilterValuesType } from './state/todolists-reducer';
 import { TaskStatuses, TaskTypeAPI } from './api/todolist-api';
-import useEnhancedEffect from '@mui/material/utils/useEnhancedEffect';
 import { fetchTaskTC } from './state/tasks-reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { TasksStateType } from './App';

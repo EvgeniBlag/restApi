@@ -91,7 +91,7 @@ export const todolistAPI = {
   },
 
   createTodolist(title:string) {
-    return instance.post <ResponseType<{item:TodolistType}>> ('todo-lists', {title:'Evgeny and Aria y Uliana'});
+    return instance.post <ResponseType<{item:TodolistType}>> ('todo-lists', {title});
 },
 
   deleteTodolist(todolistId:string) {
